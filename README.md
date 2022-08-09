@@ -21,5 +21,5 @@ encrypt
 decrypt
 
 ```
-./dec.sh ./out/20220101_000000.dat /path/to/folder
+./dec.sh ./dest/20220101_000000.dat /path/to/folder
 ```
