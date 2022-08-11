@@ -1,9 +1,10 @@
 #!/bin/bash -eu
 set -o pipefail
 
-cmd=$1
-src=$2
-dest=$3
+cmd="$1"
+src="$2"
+dest="$3"
+itr_cnt="${4:-20000}"
 
 # input pass
 read -s -p "Enter password: " pass
@@ -26,12 +27,12 @@ if [[ "${cmd}" == "enc" ]]; then
 
   tar cf - . | \
     pv -s "$(du -sb . | awk '{print $1}')" | \
-    openssl enc -e -aes-256-cbc -iter 20000 -pbkdf2 -pass "file:/tmp/pass" -out "${dest}"
+    openssl enc -e -aes-256-cbc -iter "${itr_cnt}" -pbkdf2 -pass "file:/tmp/pass" -out "${dest}"
 
 elif [[ "${cmd}" == "dec" ]]; then
 
   # decrypt and tar
-  openssl enc -d -aes-256-cbc -iter 20000 -pbkdf2 -pass "file:/tmp/pass" -in "${src}" | \
+  openssl enc -d -aes-256-cbc -iter "${itr_cnt}" -pbkdf2 -pass "file:/tmp/pass" -in "${src}" | \
     pv -s "$(stat --print="%s" "${src}")" | \
     tar xf - -C "${dest}"
 
