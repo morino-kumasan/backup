@@ -55,4 +55,5 @@ docker run --rm -it \
     -v "${target}:/src:ro" \
     -v "${dest}:/dest" \
     backup \
-    enc -i "${itr_cnt}" -- /src "/dest/${now}.dat"
+        -i "${itr_cnt}" \
+        -- enc /src "/dest/${now}.dat"

@@ -64,7 +64,8 @@ docker run --rm -it \
     -v "${target_dir}:/src:ro" \
     -v "${dest%/}/${target_base}:/dest" \
     backup \
-    dec -i "${itr_cnt}" -- "/src/${target_file}" /dest
+        -i "${itr_cnt}" \
+        -- dec "/src/${target_file}" /dest
 
 else
 
@@ -72,6 +73,7 @@ docker run --rm -it \
     -v "${target_dir}:/src:ro" \
     -v "${dest}:/dest" \
     backup \
-    dec-tar -i "${itr_cnt}" -- "/src/${target_file}" "/dest/${target_base}.tar"
+        -i "${itr_cnt}" \
+        -- dec-tar "/src/${target_file}" "/dest/${target_base}.tar"
 
 fi
