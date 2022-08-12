@@ -36,6 +36,12 @@ elif [[ "${cmd}" == "dec" ]]; then
     pv -s "$(stat --print="%s" "${src}")" | \
     tar xf - -C "${dest}"
 
+elif [[ "${cmd}" == "dec-tar" ]]; then
+
+  # decrypt
+  openssl enc -d -aes-256-cbc -iter "${itr_cnt}" -pbkdf2 -pass "file:/tmp/pass" -in "${src}" | \
+    pv -s "$(stat --print="%s" "${src}")" > ${dest}
+
 else
 
   echo "Usaage: docker run --rm -v {source-mount} -v {destination-mount} backup {enc|dec} {source} {destination}" 1>&2
