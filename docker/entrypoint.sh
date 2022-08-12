@@ -1,15 +1,49 @@
 #!/bin/bash -eu
 set -o pipefail
 
+usage() {
+  cat <<_EOF_
+encode/decode data
+
+Usage:
+  $0 [-i iter_count] [-h] {command} {source} {destination}
+
+Options:
+  -i  iter count
+  -h  help
+_EOF_
+  exit 1
+}
+
+# defaults
+itr_cnt=20000
+
+# options
+while getopts i:h OPT; do
+  case ${OPT} in
+  i)
+    itr_cnt=${OPTARG}
+    ;;
+  h)
+    usage
+    ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+# positional args
 cmd="$1"
 src="$2"
 dest="$3"
-itr_cnt="${4:-20000}"
 
 # input pass
 read -s -p "Enter password: " pass
 echo "${pass}" > /tmp/pass
 echo ""
+
+# remove pass
+trap "rm -f /tmp/pass" exit
 
 if [[ "${cmd}" == "enc" ]]; then
 
@@ -44,9 +78,6 @@ elif [[ "${cmd}" == "dec-tar" ]]; then
 
 else
 
-  echo "Usaage: docker run --rm -v {source-mount} -v {destination-mount} backup {enc|dec} {source} {destination}" 1>&2
+  usage
 
 fi
-
-# remove pass
-rm -f /tmp/pass
