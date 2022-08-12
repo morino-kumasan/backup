@@ -18,14 +18,14 @@ encrypt
 ./enc.sh /path/to/source/folder /path/to/destination/folder
 ```
 
-decrypt
+decrypt (tar)
 
 ```
 ./dec.sh ./dest/20220101_000000.dat /path/to/destination/folder
 ```
 
-decrypt (not decompress)
+decrypt (decompress)
 
 ```
-./dec-tar.sh ./dest/20220101_000000.dat /path/to/destination/folder
+./dec.sh -d ./dest/20220101_000000.dat /path/to/destination/folder
 ```
